@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Challange : MonoBehaviour
+public class ChallangeGenerator : MonoBehaviour
 {
     public GameObject[] challenges;
     private Vector3 startPos;
@@ -15,14 +15,14 @@ public class Challange : MonoBehaviour
 
     public void SpawnNew()
     {
-        Challange newChallenge = GenerateRandomChallenges();
+        ChallangeGenerator newChallenge = GenerateRandomChallenges();
         newChallenge.transform.position = this.transform.position + this.endPos - newChallenge.startPos;
     }
 
-    private Challange GenerateRandomChallenges()
+    private ChallangeGenerator GenerateRandomChallenges()
     {
         GameObject newChallenge = Instantiate(challenges[Random.Range(0, challenges.Length)], transform.position, Quaternion.identity) as GameObject;
-        return newChallenge.GetComponent<Challange>();
+        return newChallenge.GetComponent<ChallangeGenerator>();
     }
 }
 
