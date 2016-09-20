@@ -20,10 +20,10 @@ public class TheDestroyer : MonoBehaviour {
         Rigidbody2D rb = other.GetComponent<Rigidbody2D>();
         rb.isKinematic = false;
 
-        if (other.CompareTag("Player"))
-        {
-            Destroy(other.gameObject);
-        }
+        //if (other.CompareTag("Player"))
+        //{
+        //    Destroy(other.gameObject);
+        //}
     }
 
     void OnTriggerStay2D(Collider2D other)
