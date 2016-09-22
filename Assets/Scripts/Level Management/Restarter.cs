@@ -4,11 +4,11 @@ using System.Collections;
 
 public class Restarter : MonoBehaviour {
 
-    public string levelToLoad;
+    public LevelManager theLevelManager;
 
 	// Use this for initialization
 	void Start () {
-	
+        theLevelManager = FindObjectOfType<LevelManager>();
 	}
 	
 	// Update is called once per frame
@@ -19,12 +19,9 @@ public class Restarter : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        //Rigidbody2D rb = other.GetComponent<Rigidbody2D>();
-        //rb.isKinematic = false;
-
         if (other.CompareTag("Player"))
         {
-            SceneManager.LoadScene(levelToLoad);
+            theLevelManager.Respawn();
         }
     }
 }
