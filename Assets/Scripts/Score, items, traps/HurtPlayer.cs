@@ -3,9 +3,11 @@ using System.Collections;
 
 public class HurtPlayer : MonoBehaviour {
 
+    private LevelManager theLevelManager;
+
 	// Use this for initialization
 	void Start () {
-	
+        theLevelManager = FindObjectOfType<LevelManager>();
 	}
 	
 	// Update is called once per frame
@@ -17,7 +19,7 @@ public class HurtPlayer : MonoBehaviour {
     {
         if (other.CompareTag("Player"))
         {
-
+            theLevelManager.Respawn();
         }
     }
 }

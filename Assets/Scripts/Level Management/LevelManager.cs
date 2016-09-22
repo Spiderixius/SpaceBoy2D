@@ -8,6 +8,8 @@ public class LevelManager : MonoBehaviour {
     public PlayerController thePlayer;
     public string levelToLoad;
 
+    public GameObject deathParticleYellow;
+
     // Use this for initialization
     void Start () {
         thePlayer = FindObjectOfType<PlayerController>();
@@ -27,8 +29,10 @@ public class LevelManager : MonoBehaviour {
     {
         thePlayer.gameObject.SetActive(false);
 
+        Instantiate(deathParticleYellow, thePlayer.transform.position, thePlayer.transform.rotation);
+
         yield return new WaitForSeconds(waitToRespawn);
         SceneManager.LoadScene(levelToLoad);
-        thePlayer.gameObject.SetActive(true);
+        //thePlayer.gameObject.SetActive(true);
     }
 }
