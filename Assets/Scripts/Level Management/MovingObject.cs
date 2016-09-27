@@ -31,4 +31,10 @@ public class MovingObject : MonoBehaviour {
             currentTarget = endPoint.position;
         }
 	}
+
+    void OnDrawGizmos()
+    {
+        Gizmos.DrawWireCube(startPoint.position, transform.localScale);
+        Gizmos.DrawWireCube(endPoint.position, transform.localScale);
+    }
 }

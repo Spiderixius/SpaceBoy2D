@@ -11,6 +11,12 @@ public class CameraController : MonoBehaviour {
 
     private Vector3 targetPosition;
 
+    // Camera bounds
+    public bool bounds;
+
+    public Vector3 minCameraPosition;
+    public Vector3 maxCameraPostion;
+
     // Use this for initialization
     void Start()
     {
@@ -41,10 +47,15 @@ public class CameraController : MonoBehaviour {
                 targetPosition = new Vector3(targetPosition.x - followAhead, targetPosition.y, targetPosition.z);
             }
 
-            //transform.position = targetPosition;
-
             // To avoid having different smoothing speeds for different frame rates, we will multiply with deltaTime.
             transform.position = Vector3.Lerp(transform.position, targetPosition, smoothing * Time.deltaTime);
+
+            if (bounds)
+            {
+                transform.position = new Vector3(Mathf.Clamp(transform.position.x, minCameraPosition.x, maxCameraPostion.x),
+                    Mathf.Clamp(transform.position.y, minCameraPosition.y, maxCameraPostion.y),
+                    Mathf.Clamp(transform.position.z, minCameraPosition.z, maxCameraPostion.z));
+            }
         }
     }
 }
