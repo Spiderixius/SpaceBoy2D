@@ -26,7 +26,8 @@ public class CameraFollow : MonoBehaviour {
 
     void Start()
     {
-        focusArea = new FocusArea(target.GetComponent<Collider2D>().bounds, focusAreaSize);
+        if (target != null)
+            focusArea = new FocusArea(target.GetComponent<Collider2D>().bounds, focusAreaSize);
     }
 
     void LateUpdate()

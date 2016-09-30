@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class HurtPlayer : MonoBehaviour {
+public class Coin : MonoBehaviour {
 
-    private LevelManager theLevelManager;
-
-    public int damageAmount;
+    public LevelManager theLevelManager;
+    public int coinValue;
 
 	// Use this for initialization
 	void Start () {
@@ -21,8 +20,8 @@ public class HurtPlayer : MonoBehaviour {
     {
         if (other.CompareTag("Player"))
         {
-            theLevelManager.HurtPlayer(damageAmount);
-            //theLevelManager.Respawn();
+            theLevelManager.AddCoins(coinValue);
+            Destroy(gameObject);
         }
     }
 }
