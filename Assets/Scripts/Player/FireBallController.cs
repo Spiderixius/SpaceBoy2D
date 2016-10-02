@@ -9,6 +9,9 @@ public class FireBallController : MonoBehaviour {
     public GameObject impactEffect;
     public float zRotation;
 
+    public int damageToGive;
+
+
     
 
     // Use this for initialization
@@ -50,7 +53,8 @@ public class FireBallController : MonoBehaviour {
     {
         if (other.CompareTag("Enemy"))
         {
-            Destroy(other.gameObject);
+            //Destroy(other.gameObject);
+            other.GetComponent<EnemyHealthManager>().giveDamage(damageToGive);
         }
         Instantiate(impactEffect, transform.position, transform.rotation);
         Destroy(gameObject);

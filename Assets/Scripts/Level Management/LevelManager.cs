@@ -16,6 +16,7 @@ public class LevelManager : MonoBehaviour {
     // Coin related
     public int coinCount;
     public Text coinText;
+    public AudioSource coinSound;
 
     // Health related
     public Image heart1;
@@ -74,6 +75,7 @@ public class LevelManager : MonoBehaviour {
     public void AddCoins(int coinsToAdd)
     {
         coinCount += coinsToAdd;
+        coinSound.Play();
         coinText.text = "Coins: " + coinCount;
     }
 

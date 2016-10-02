@@ -29,10 +29,12 @@ public class PlayerController : MonoBehaviour {
     // Fireball related
     public Transform firePoint;
     public GameObject fireball;
+    public float shotDelay;
+    private float shotDelayCounter;
 
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 
         // Attaches the players Rigidbody2D to the object which this script is attached to
         playerRigidbody2D = GetComponent<Rigidbody2D>();
@@ -45,6 +47,8 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+        
 
         // If within a circular area, set isGrounded to true
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
@@ -82,10 +86,32 @@ public class PlayerController : MonoBehaviour {
         playerAnim.SetFloat("Speed", Mathf.Abs(playerRigidbody2D.velocity.x));
         playerAnim.SetBool("Grounded", isGrounded);
 
+        // Shooting fireballs
+        // Delay shooting
+        shotDelayCounter -= Time.deltaTime;
+
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            Instantiate(fireball, firePoint.position, firePoint.rotation);
+            
+
+            if (shotDelayCounter <= 0)
+            {
+                Instantiate(fireball, firePoint.position, firePoint.rotation);
+                shotDelayCounter = shotDelay;
+            }
         }
+        // Consistent shooting
+        if (Input.GetKey(KeyCode.Return))
+        {
+            shotDelayCounter -= Time.deltaTime;
+
+            if (shotDelayCounter <= 0)
+            {
+                shotDelayCounter = shotDelay;
+                Instantiate(fireball, firePoint.position, firePoint.rotation);
+            }
+        }
+
     }
 
     void OnCollisionEnter2D(Collision2D other)
