@@ -22,6 +22,10 @@ public class PlayerController : MonoBehaviour {
     // Animation
     private Animator playerAnim;
 
+    // Audio
+    public AudioSource jumpSound;
+    public AudioSource hurtSound;
+
 
 	// Use this for initialization
 	void Start () {
@@ -67,6 +71,7 @@ public class PlayerController : MonoBehaviour {
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             playerRigidbody2D.velocity = new Vector3(playerRigidbody2D.velocity.x, jumpPower, 0f);
+            jumpSound.Play();
         }
 
         // Animation
