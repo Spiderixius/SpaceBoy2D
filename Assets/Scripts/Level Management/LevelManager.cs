@@ -83,7 +83,7 @@ public class LevelManager : MonoBehaviour {
     {
         healthCount -= hurtAmount;
         UpdateHeartSprites();
-
+        thePlayer.KnockBack();
         thePlayer.hurtSound.Play();
     }
 

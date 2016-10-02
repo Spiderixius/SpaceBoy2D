@@ -32,6 +32,11 @@ public class PlayerController : MonoBehaviour {
     public float shotDelay;
     private float shotDelayCounter;
 
+    // Knockback related
+    public float knockBackForce;
+    public float knockBackDuration;
+    private float knockBackCounter;
+
 
     // Use this for initialization
     void Start () {
@@ -53,33 +58,52 @@ public class PlayerController : MonoBehaviour {
         // If within a circular area, set isGrounded to true
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
 
-        if (onPlatform)
+        if (knockBackCounter <= 0)
         {
-            activeMoveSpeed = moveSpeed * onPlatformMoveSpeed;
-        } else
-        {
-            activeMoveSpeed = moveSpeed;
+
+        
+            if (onPlatform)
+            {
+                activeMoveSpeed = moveSpeed * onPlatformMoveSpeed;
+            } else
+            {
+                activeMoveSpeed = moveSpeed;
+            }
+
+            // Player movement +x and -x
+            if (Input.GetAxisRaw("Horizontal") > 0f)
+            {
+                playerRigidbody2D.velocity = new Vector3(activeMoveSpeed, playerRigidbody2D.velocity.y, 0f);
+                transform.localScale = new Vector3(1f, 1f, 1f);
+            } else if (Input.GetAxisRaw("Horizontal") < 0f)
+            {
+                playerRigidbody2D.velocity = new Vector3(-activeMoveSpeed, playerRigidbody2D.velocity.y, 0f);
+                transform.localScale = new Vector3(-1f, 1f, 1f);
+            } else
+            {
+                playerRigidbody2D.velocity = new Vector3(0f, playerRigidbody2D.velocity.y, 0f);
+            }
+
+            // Player jump
+            if (Input.GetButtonDown("Jump") && isGrounded)
+            {
+                playerRigidbody2D.velocity = new Vector3(playerRigidbody2D.velocity.x, jumpPower, 0f);
+                jumpSound.Play();
+            }
         }
 
-        // Player movement +x and -x
-        if (Input.GetAxisRaw("Horizontal") > 0f)
+        if (knockBackCounter > 0)
         {
-            playerRigidbody2D.velocity = new Vector3(activeMoveSpeed, playerRigidbody2D.velocity.y, 0f);
-            transform.localScale = new Vector3(1f, 1f, 1f);
-        } else if (Input.GetAxisRaw("Horizontal") < 0f)
-        {
-            playerRigidbody2D.velocity = new Vector3(-activeMoveSpeed, playerRigidbody2D.velocity.y, 0f);
-            transform.localScale = new Vector3(-1f, 1f, 1f);
-        } else
-        {
-            playerRigidbody2D.velocity = new Vector3(0f, playerRigidbody2D.velocity.y, 0f);
-        }
+            knockBackCounter -= Time.deltaTime;
 
-        // Player jump
-        if (Input.GetButtonDown("Jump") && isGrounded)
-        {
-            playerRigidbody2D.velocity = new Vector3(playerRigidbody2D.velocity.x, jumpPower, 0f);
-            jumpSound.Play();
+            if (transform.localScale.x > 0)
+            {
+                playerRigidbody2D.velocity = new Vector3(-knockBackForce, knockBackForce, 0f);
+            }
+            else
+            {
+                playerRigidbody2D.velocity = new Vector3(knockBackForce, knockBackForce, 0f);
+            }
         }
 
         // Animation
@@ -112,6 +136,11 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
+    }
+
+    public void KnockBack()
+    {
+        knockBackCounter = knockBackDuration;
     }
 
     void OnCollisionEnter2D(Collision2D other)
