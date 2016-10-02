@@ -26,6 +26,10 @@ public class PlayerController : MonoBehaviour {
     public AudioSource jumpSound;
     public AudioSource hurtSound;
 
+    // Fireball related
+    public Transform firePoint;
+    public GameObject fireball;
+
 
 	// Use this for initialization
 	void Start () {
@@ -77,6 +81,11 @@ public class PlayerController : MonoBehaviour {
         // Animation
         playerAnim.SetFloat("Speed", Mathf.Abs(playerRigidbody2D.velocity.x));
         playerAnim.SetBool("Grounded", isGrounded);
+
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            Instantiate(fireball, firePoint.position, firePoint.rotation);
+        }
     }
 
     void OnCollisionEnter2D(Collision2D other)
