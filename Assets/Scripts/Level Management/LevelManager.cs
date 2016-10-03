@@ -17,6 +17,8 @@ public class LevelManager : MonoBehaviour {
     public int coinCount;
     public Text coinText;
     public AudioSource coinSound;
+    public int bonusLifeThreshold;
+    private int coinBonusLifeCount;
 
     // Health related
     public Image heart1;
@@ -41,6 +43,10 @@ public class LevelManager : MonoBehaviour {
 
     // GameOver Screen
     public GameObject gameOverScreen;
+    public AudioSource gameOverMusic;
+
+    // Music
+    public AudioSource levelMusic;
 
 
     // To make sure that the player is not attempted to be respawned.
@@ -74,6 +80,13 @@ public class LevelManager : MonoBehaviour {
             Respawn();
             isRespawning = true;
         }
+
+        if (coinBonusLifeCount >= bonusLifeThreshold)
+        {
+            currentLives += 1;
+            livesText.text = "Lives x " + currentLives;
+            coinBonusLifeCount -= bonusLifeThreshold;
+        }
 	}
 
     public void Respawn()
@@ -89,6 +102,8 @@ public class LevelManager : MonoBehaviour {
         {
             thePlayer.gameObject.SetActive(false);
             gameOverScreen.SetActive(true);
+            levelMusic.Stop();
+            gameOverMusic.Play();
             PlayerPrefs.DeleteKey("PlayerLives");
         }
     }
@@ -104,7 +119,7 @@ public class LevelManager : MonoBehaviour {
         healthCount = maxHealth;
         isRespawning = false;
         UpdateHeartSprites();
-
+        coinBonusLifeCount = 0;
         SceneManager.LoadScene(levelToLoad);
         //thePlayer.gameObject.SetActive(true);
     }
@@ -112,6 +127,7 @@ public class LevelManager : MonoBehaviour {
     public void AddCoins(int coinsToAdd)
     {
         coinCount += coinsToAdd;
+        coinBonusLifeCount += coinsToAdd;
         coinSound.Play();
         coinText.text = "Coins: " + coinCount;
     }
