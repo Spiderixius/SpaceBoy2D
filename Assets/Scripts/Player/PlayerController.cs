@@ -37,12 +37,23 @@ public class PlayerController : MonoBehaviour {
     public float knockBackDuration;
     private float knockBackCounter;
 
+    public float invincibilityLength;
+    private float invincibilityCounter;
+
+    // Stompbox related
+    public GameObject stompBox;
+
+    // The level manager
+    public LevelManager theLevelManager;
+
 
     // Use this for initialization
     void Start () {
 
         // Attaches the players Rigidbody2D to the object which this script is attached to
         playerRigidbody2D = GetComponent<Rigidbody2D>();
+
+        theLevelManager = FindObjectOfType<LevelManager>();
 
         // Attaches the players Animator to the object which this script is attached to
         playerAnim = GetComponent<Animator>();
@@ -60,8 +71,6 @@ public class PlayerController : MonoBehaviour {
 
         if (knockBackCounter <= 0)
         {
-
-        
             if (onPlatform)
             {
                 activeMoveSpeed = moveSpeed * onPlatformMoveSpeed;
@@ -90,6 +99,8 @@ public class PlayerController : MonoBehaviour {
                 playerRigidbody2D.velocity = new Vector3(playerRigidbody2D.velocity.x, jumpPower, 0f);
                 jumpSound.Play();
             }
+
+            
         }
 
         if (knockBackCounter > 0)
@@ -106,13 +117,34 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
+        if (invincibilityCounter > 0)
+        {
+            invincibilityCounter -= Time.deltaTime;
+        }
+
+        if (invincibilityCounter <= 0)
+        {
+            theLevelManager.invincible = false;
+        }
+
         // Animation
         playerAnim.SetFloat("Speed", Mathf.Abs(playerRigidbody2D.velocity.x));
         playerAnim.SetBool("Grounded", isGrounded);
 
+        // Stompbox deactivation/activation
+        if (playerRigidbody2D.velocity.y < 0)
+        {
+            stompBox.SetActive(true);
+        }
+        else
+        {
+            stompBox.SetActive(false);
+        }
+
         // Shooting fireballs
         // Delay shooting
         shotDelayCounter -= Time.deltaTime;
+
 
         if (Input.GetKeyDown(KeyCode.Return))
         {
@@ -141,6 +173,8 @@ public class PlayerController : MonoBehaviour {
     public void KnockBack()
     {
         knockBackCounter = knockBackDuration;
+        invincibilityCounter = invincibilityLength;
+        theLevelManager.invincible = true;
     }
 
     void OnCollisionEnter2D(Collision2D other)

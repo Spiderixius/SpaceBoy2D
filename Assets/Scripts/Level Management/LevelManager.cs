@@ -30,6 +30,19 @@ public class LevelManager : MonoBehaviour {
     public int maxHealth;
     public int healthCount;
 
+    // Knockback related
+    public bool invincible;
+
+    // Lives related
+    public int startingLives;
+    public int currentLives;
+    public Text livesText;
+    public AudioSource livesSound;
+
+    // GameOver Screen
+    public GameObject gameOverScreen;
+
+
     // To make sure that the player is not attempted to be respawned.
     private bool isRespawning;
 
@@ -40,6 +53,18 @@ public class LevelManager : MonoBehaviour {
         coinText.text = "Coins: " + coinCount;
 
         healthCount = maxHealth;
+
+        if (PlayerPrefs.HasKey("PlayerLives"))
+        {
+            currentLives = PlayerPrefs.GetInt("PlayerLives");
+        }
+        else
+        {
+            currentLives = startingLives;
+        }
+        
+        livesText.text = "Lives x " + currentLives;
+
 	}
 	
 	// Update is called once per frame
@@ -53,7 +78,19 @@ public class LevelManager : MonoBehaviour {
 
     public void Respawn()
     {
-        StartCoroutine("RespawnCo");
+        currentLives -= 1;
+        livesText.text = "Lives x " + currentLives;
+
+        if (currentLives > 0)
+        {
+            StartCoroutine("RespawnCo");
+        }
+        else
+        {
+            thePlayer.gameObject.SetActive(false);
+            gameOverScreen.SetActive(true);
+            PlayerPrefs.DeleteKey("PlayerLives");
+        }
     }
 
     public IEnumerator RespawnCo()
@@ -62,8 +99,8 @@ public class LevelManager : MonoBehaviour {
 
         Instantiate(deathParticleYellow, thePlayer.transform.position, thePlayer.transform.rotation);
 
-        yield return new WaitForSeconds(waitToRespawn);
-
+        PlayerPrefs.SetInt("PlayerLives", currentLives);
+        yield return new WaitForSeconds(waitToRespawn); 
         healthCount = maxHealth;
         isRespawning = false;
         UpdateHeartSprites();
@@ -81,10 +118,33 @@ public class LevelManager : MonoBehaviour {
 
     public void HurtPlayer(int hurtAmount)
     {
-        healthCount -= hurtAmount;
+        if (!invincible)
+        {
+            healthCount -= hurtAmount;
+            UpdateHeartSprites();
+            thePlayer.KnockBack();
+            thePlayer.hurtSound.Play();
+        }
+        
+    }
+
+    public void AddHealth(int healthToAdd)
+    {
+        healthCount += healthToAdd;
+
+        // To avoid having more health than it is possible.
+        if (healthCount > maxHealth)
+        {
+            healthCount = maxHealth;
+        }
+
         UpdateHeartSprites();
-        thePlayer.KnockBack();
-        thePlayer.hurtSound.Play();
+    }
+
+    public void AddLives(int livesToAdd)
+    {
+        currentLives += livesToAdd;
+        livesText.text = "Lives x " + currentLives;
     }
 
     public void UpdateHeartSprites()
