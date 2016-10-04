@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour {
     private float activeMoveSpeed;
     public float jumpPower;
     private Rigidbody2D playerRigidbody2D;
+    public bool canMove;
 
     // Ground checking
     public Transform groundCheck;
@@ -59,17 +60,17 @@ public class PlayerController : MonoBehaviour {
         playerAnim = GetComponent<Animator>();
 
         activeMoveSpeed = moveSpeed;
+
+        canMove = true;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-        
-
         // If within a circular area, set isGrounded to true
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
 
-        if (knockBackCounter <= 0)
+        if (knockBackCounter <= 0 && canMove)
         {
             if (onPlatform)
             {
@@ -146,10 +147,8 @@ public class PlayerController : MonoBehaviour {
         shotDelayCounter -= Time.deltaTime;
 
 
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Return) && canMove)
         {
-            
-
             if (shotDelayCounter <= 0)
             {
                 Instantiate(fireball, firePoint.position, firePoint.rotation);
@@ -157,7 +156,7 @@ public class PlayerController : MonoBehaviour {
             }
         }
         // Consistent shooting
-        if (Input.GetKey(KeyCode.Return))
+        if (Input.GetKey(KeyCode.Return) && canMove)
         {
             shotDelayCounter -= Time.deltaTime;
 
