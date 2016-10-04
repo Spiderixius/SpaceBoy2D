@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class GameOver : MonoBehaviour {
 
     public string mainMenu;
+    public GameObject restartGameButton;
 
 	// Use this for initialization
 	void Start () {
@@ -15,6 +17,11 @@ public class GameOver : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    void Awake()
+    {
+        EventSystem.current.SetSelectedGameObject(restartGameButton);
+    }
 
     public void Restart()
     {
