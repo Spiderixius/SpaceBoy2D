@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CameraFollow : MonoBehaviour {
+public class CameraFollow : MonoBehaviour
+{
 
     public GameObject target;
     public Vector2 focusAreaSize;
@@ -26,31 +27,36 @@ public class CameraFollow : MonoBehaviour {
 
     void Start()
     {
-        if (target != null)
-            focusArea = new FocusArea(target.GetComponent<Collider2D>().bounds, focusAreaSize);
+
+        focusArea = new FocusArea(target.GetComponent<Collider2D>().bounds, focusAreaSize);
     }
 
     void LateUpdate()
     {
-        focusArea.Update(target.GetComponent<Collider2D>().bounds);
-        Vector2 focusPosition = focusArea.centre + Vector2.up * verticalOffSet;
-
-        if (focusArea.velocity.x != 0)
+        if (target != null)
         {
-            lookAheadDirectionX = Mathf.Sign(focusArea.velocity.x);
-        }
 
-        targetLookAheadX = lookAheadDirectionX * lookAheadDistanceX;
-        currentLookAheadX = Mathf.SmoothDamp(currentLookAheadX, targetLookAheadX, ref smoothLookVelocityX, lookSmoothTimeX);
 
-        focusPosition += Vector2.right * currentLookAheadX;
-        transform.position = (Vector3)focusPosition + Vector3.forward * -10;
+            focusArea.Update(target.GetComponent<Collider2D>().bounds);
+            Vector2 focusPosition = focusArea.centre + Vector2.up * verticalOffSet;
 
-        if (bounds)
-        {
-            transform.position = new Vector3(Mathf.Clamp(transform.position.x, minCameraPosition.x, maxCameraPostion.x),
-                Mathf.Clamp(transform.position.y, minCameraPosition.y, maxCameraPostion.y),
-                Mathf.Clamp(transform.position.z, minCameraPosition.z, maxCameraPostion.z));
+            if (focusArea.velocity.x != 0)
+            {
+                lookAheadDirectionX = Mathf.Sign(focusArea.velocity.x);
+            }
+
+            targetLookAheadX = lookAheadDirectionX * lookAheadDistanceX;
+            currentLookAheadX = Mathf.SmoothDamp(currentLookAheadX, targetLookAheadX, ref smoothLookVelocityX, lookSmoothTimeX);
+
+            focusPosition += Vector2.right * currentLookAheadX;
+            transform.position = (Vector3)focusPosition + Vector3.forward * -10;
+
+            if (bounds)
+            {
+                transform.position = new Vector3(Mathf.Clamp(transform.position.x, minCameraPosition.x, maxCameraPostion.x),
+                    Mathf.Clamp(transform.position.y, minCameraPosition.y, maxCameraPostion.y),
+                    Mathf.Clamp(transform.position.z, minCameraPosition.z, maxCameraPostion.z));
+            }
         }
     }
 
@@ -110,6 +116,6 @@ public class CameraFollow : MonoBehaviour {
             velocity = new Vector2(shiftX, shiftY);
         }
     }
-	
+
 
 }
