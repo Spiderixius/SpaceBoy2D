@@ -11,7 +11,7 @@ public class TheDestroyer : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
         transform.Translate(Vector2.right * speed * Time.deltaTime);
 	}
 

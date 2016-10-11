@@ -19,17 +19,21 @@ public class MovingObject : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        objectToMove.transform.position = Vector3.MoveTowards(objectToMove.transform.position, currentTarget, moveSpeed * Time.deltaTime);
-
-        if (objectToMove.transform.position == endPoint.position)
+        if (objectToMove != null)   
         {
-            currentTarget = startPoint.position;
-        }
+            objectToMove.transform.position = Vector3.MoveTowards(objectToMove.transform.position, currentTarget, moveSpeed * Time.deltaTime);
 
-        if (objectToMove.transform.position == startPoint.position)
-        {
-            currentTarget = endPoint.position;
+            if (objectToMove.transform.position == endPoint.position)
+            {
+                currentTarget = startPoint.position;
+            }
+
+            if (objectToMove.transform.position == startPoint.position)
+            {
+                currentTarget = endPoint.position;
+            }
         }
+        
 	}
 
     void OnDrawGizmos()
