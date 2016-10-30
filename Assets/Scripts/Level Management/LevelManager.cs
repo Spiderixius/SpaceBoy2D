@@ -3,6 +3,10 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+
+/// <summary>
+/// The level manager controls several aspects of the level, from coins to health to death handling.
+/// </summary>
 public class LevelManager : MonoBehaviour {
 
     // Player respawning
@@ -89,6 +93,11 @@ public class LevelManager : MonoBehaviour {
         }
 	}
 
+    /// <summary>
+    /// The respawn method which starts the respawn coroutine
+    /// Also PlayerPrefs are reset.
+    /// <see cref="RespawnCo"/>
+    /// </summary>
     public void Respawn()
     {
         currentLives -= 1;
@@ -108,6 +117,10 @@ public class LevelManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// A cooroutine used to control the amount the player has to wait before being respawned.
+    /// This method is used to let the player catch a breath before being cast into the game again.
+    /// </summary>
     public IEnumerator RespawnCo()
     {
         thePlayer.gameObject.SetActive(false);
@@ -124,6 +137,10 @@ public class LevelManager : MonoBehaviour {
         //thePlayer.gameObject.SetActive(true);
     }
 
+    /// <summary>
+    /// A method to add coins.
+    /// </summary>
+    /// <param name="coinsToAdd">Coins amount to add.</param>
     public void AddCoins(int coinsToAdd)
     {
         coinCount += coinsToAdd;
@@ -132,6 +149,10 @@ public class LevelManager : MonoBehaviour {
         coinText.text = "Coins: " + coinCount;
     }
 
+    /// <summary>
+    /// A method to hurt the player and the amount.
+    /// </summary>
+    /// <param name="hurtAmount">Amount of damage to inflict. </param>
     public void HurtPlayer(int hurtAmount)
     {
         if (!invincible)
@@ -144,6 +165,10 @@ public class LevelManager : MonoBehaviour {
         
     }
 
+    /// <summary>
+    /// Method to add health, and the amount of health to be added.
+    /// </summary>
+    /// <param name="healthToAdd">The amount health to be added.</param>
     public void AddHealth(int healthToAdd)
     {
         healthCount += healthToAdd;
@@ -157,12 +182,19 @@ public class LevelManager : MonoBehaviour {
         UpdateHeartSprites();
     }
 
+    /// <summary>
+    /// Method to add lives, and the amount of lives to be added.
+    /// </summary>
+    /// <param name="livesToAdd">The amount of lives to be added.</param>
     public void AddLives(int livesToAdd)
     {
         currentLives += livesToAdd;
         livesText.text = "Lives x " + currentLives;
     }
 
+    /// <summary>
+    /// A method to update the heart sprites once the health amount has been updated. 
+    /// </summary>
     public void UpdateHeartSprites()
     {
         switch (healthCount)

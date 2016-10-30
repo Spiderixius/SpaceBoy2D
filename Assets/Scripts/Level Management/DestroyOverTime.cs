@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Simple script to destroy gameObjects over time, 
+/// for example particle effects and one time use spawners.
+/// </summary>
 public class DestroyOverTime : MonoBehaviour {
 
     public float lifeTime;

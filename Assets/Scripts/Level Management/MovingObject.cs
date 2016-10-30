@@ -1,15 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Script to handle movement of any object that this script is attached to.
+/// </summary>
 public class MovingObject : MonoBehaviour {
 
     public GameObject objectToMove;
 
+    // Two point movement variables.
     public Transform startPoint;
     public Transform endPoint;
 
     public float moveSpeed;
 
+    // The current point the gameObject is moving towards.
     private Vector3 currentTarget;
 
 	// Use this for initialization
@@ -36,6 +41,9 @@ public class MovingObject : MonoBehaviour {
         
 	}
 
+    /// <summary>
+    /// For debugging purposes, simply draws a white box around start and end points. 
+    /// </summary>
     void OnDrawGizmos()
     {
         Gizmos.DrawWireCube(startPoint.position, transform.localScale);

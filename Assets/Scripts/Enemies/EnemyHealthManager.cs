@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Code for the enemy health.
+/// </summary>
 public class EnemyHealthManager : MonoBehaviour {
 
     public int enemyHealth;

@@ -2,6 +2,9 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// A script to handle the pausing of game.
+/// </summary>
 public class PauseMenu : MonoBehaviour {
 
     public string mainMenu;
@@ -37,9 +40,13 @@ public class PauseMenu : MonoBehaviour {
 
     }
 
+    /// <summary>
+    /// The method to handle pausing of game, which also sets the timeScale to 0.
+    /// By setting it to 0 the passing of time is stopped.
+    /// </summary>
     public void PauseGame()
     {
-        // Stops time to 0
+        // Stops time to 0, this will ensure that no gameObject is in action.
         Time.timeScale = 0f;
 
         thePauseScreen.SetActive(true);
@@ -47,6 +54,10 @@ public class PauseMenu : MonoBehaviour {
         thePlayer.canMove = false;
     }
 
+    /// <summary>
+    /// The method to handle resuming of the game, which also sets the timeScale to 1.
+    /// By setting it back to 1 the passing of time is resumed to normal speed (realtime).
+    /// </summary>
     public void ResumeGame()
     {
         thePauseScreen.SetActive(false);
@@ -57,6 +68,10 @@ public class PauseMenu : MonoBehaviour {
         Time.timeScale = 1f;
     }
 
+    /// <summary>
+    /// Simply reloads the scene and removes saved player preferences. 
+    /// Time scale is returned to 1 here as well, as timeScale is application wide.
+    /// </summary>
     public void RestartGame()
     {
         PlayerPrefs.DeleteKey("PlayerLives");
@@ -64,6 +79,9 @@ public class PauseMenu : MonoBehaviour {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    /// <summary>
+    /// Method to quit to the main menu. 
+    /// </summary>
     public void QuitToMainMenu()
     {
         Time.timeScale = 1f;

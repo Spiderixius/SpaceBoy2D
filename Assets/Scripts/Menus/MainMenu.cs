@@ -2,6 +2,12 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// The code to handle the main menu scene.
+/// <see cref="NewGame"/>
+/// <seealso cref="Continue"/>
+/// <seealso cref="QuitGame"/>
+/// </summary>
 public class MainMenu : MonoBehaviour {
 
     public string levelToLoad;

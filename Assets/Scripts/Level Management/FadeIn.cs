@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+
+/// <summary>
+/// Code to fade the screen from black to fully transparent. 
+/// </summary>
 public class FadeIn : MonoBehaviour {
 
     public float fadeTime;

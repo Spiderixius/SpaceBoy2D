@@ -2,6 +2,9 @@
 using System.Collections;
 using UnityEngine.UI;
 
+/// <summary>
+/// The code for the infinite scrolling background.
+/// </summary>
 public class ParallaxBackground : MonoBehaviour
 {
 
@@ -27,7 +30,6 @@ public class ParallaxBackground : MonoBehaviour
             Vector3 parallax = (previousCameraPosition - transform.position) * (transitionSpeed[i] / smoothing);
 
             // Adding the movement position to the current position
-
             float rectX = backgrounds[i].uvRect.x;
             float rectY = backgrounds[i].uvRect.y;
             backgrounds[i].uvRect = new Rect(rectX - (parallax.x * Time.deltaTime), rectY + ((parallax.y / yReduction) * Time.deltaTime), 1, 1);

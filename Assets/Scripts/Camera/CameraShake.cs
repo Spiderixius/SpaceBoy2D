@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Discontinued.
+/// </summary>
 public class CameraShake : MonoBehaviour {
 
     public GameObject yellowBoss;

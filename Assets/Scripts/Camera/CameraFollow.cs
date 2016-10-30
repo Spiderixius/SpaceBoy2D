@@ -1,18 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// The camera script which follows the player.
+/// </summary>
 public class CameraFollow : MonoBehaviour
 {
-
+    // Focus area related
     public GameObject target;
     public Vector2 focusAreaSize;
     public float verticalOffSet;
     public float lookAheadDistanceX;
     public float lookSmoothTimeX;
     public float verticalSmoothTime;
-
     FocusArea focusArea;
 
+    // Offset related
     float currentLookAheadX;
     float targetLookAheadX;
     float lookAheadDirectionX;
@@ -21,7 +24,6 @@ public class CameraFollow : MonoBehaviour
 
     // Camera bounds
     public bool bounds;
-
     public Vector3 minCameraPosition;
     public Vector3 maxCameraPostion;
 
@@ -35,8 +37,6 @@ public class CameraFollow : MonoBehaviour
     {
         if (target != null)
         {
-
-
             focusArea.Update(target.GetComponent<Collider2D>().bounds);
             Vector2 focusPosition = focusArea.centre + Vector2.up * verticalOffSet;
 
@@ -66,6 +66,9 @@ public class CameraFollow : MonoBehaviour
         Gizmos.DrawCube(focusArea.centre, focusAreaSize);
     }
 
+    /// <summary>
+    /// Drawing of the focus area. 
+    /// </summary>
     struct FocusArea
     {
         public Vector2 centre;

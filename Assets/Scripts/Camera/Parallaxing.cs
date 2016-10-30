@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Discontinued
+/// </summary>
 public class Parallaxing : MonoBehaviour {
 
     public Transform[] backgrounds;     //array (list) of all back- and forgrounds to be parallaxed

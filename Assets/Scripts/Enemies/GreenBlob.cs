@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
+/// <summary>
+/// Code for the green blob, which mostly focuses on the movement of the green blob,
+/// which includes edge/wall detection and turning when an edge/wall has been detected.
+/// </summary>
 public class GreenBlob : MonoBehaviour {
 
     public LayerMask enemyMask;
@@ -30,7 +35,7 @@ public class GreenBlob : MonoBehaviour {
         Debug.DrawLine(lineCastPos, lineCastPos - myTransform.right.toVector2() * .05f);
         bool isblocked = Physics2D.Linecast(lineCastPos, lineCastPos - myTransform.right.toVector2() * .05f, enemyMask);
 
-        // If there's no ground, turn around. Or if he is blocked.
+        // If there's no ground, turn around. Or if blob is blocked.
         if (!isGrounded || isblocked)
         {
             Vector3 currentRotation = myTransform.eulerAngles;

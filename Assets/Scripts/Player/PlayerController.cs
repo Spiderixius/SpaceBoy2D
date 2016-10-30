@@ -67,8 +67,9 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        // If within a circular area, set isGrounded to true
+        // If within the groundCheck's circular area, set isGrounded to true if the type is whatIsGround LayerMask. 
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
+
 
         if (knockBackCounter <= 0 && canMove)
         {
@@ -104,6 +105,7 @@ public class PlayerController : MonoBehaviour {
             
         }
 
+        // Knockback counter, which simply knocks the player in either +x or -x direction.
         if (knockBackCounter > 0)
         {
             knockBackCounter -= Time.deltaTime;
@@ -118,11 +120,13 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
+        // Simply counts down the invisibility duration.
         if (invincibilityCounter > 0)
         {
             invincibilityCounter -= Time.deltaTime;
         }
 
+        // Sets invisibility back to false. 
         if (invincibilityCounter <= 0)
         {
             theLevelManager.invincible = false;
@@ -169,6 +173,10 @@ public class PlayerController : MonoBehaviour {
 
     }
 
+    /// <summary>
+    /// A method to knock back the player upon damage. 
+    /// <seealso cref="HurtPlayer"/>
+    /// </summary>
     public void KnockBack()
     {
         knockBackCounter = knockBackDuration;
@@ -176,6 +184,12 @@ public class PlayerController : MonoBehaviour {
         theLevelManager.invincible = true;
     }
 
+    /// <summary>
+    /// When the player gameObject has made contact with the other gameobject's collider the player gameObject
+    /// will become a child of it.
+    /// This is to ensure that the Player will stay on the moving gameObject and not slide off.
+    /// </summary>
+    /// <param name="other">Indicates a seperate gameObject's 2D collider, that is not the player's.</param>
     void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.tag == "MovingPlatform")
@@ -184,7 +198,11 @@ public class PlayerController : MonoBehaviour {
             onPlatform = true;
         }
     }
-
+    /// <summary>
+    /// When the Player gameObject has exited stop it from being a child of the other gameObject (MovingPlatform)
+    /// </summary>
+    /// <seealso cref="Update() -> onPlatformMoveSpeed"/>
+    /// <param name="other">Indicates a seperate gameObject's 2D collider, that is not the player's.</param>
     void OnCollisionExit2D(Collision2D other)
     {
         if (other.gameObject.tag == "MovingPlatform")
@@ -194,3 +212,5 @@ public class PlayerController : MonoBehaviour {
         }
     }
 }
+
+
