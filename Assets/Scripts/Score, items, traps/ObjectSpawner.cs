@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 
 public class ObjectSpawner : MonoBehaviour {
 
@@ -13,7 +13,9 @@ public class ObjectSpawner : MonoBehaviour {
     public void SpawnObject()
     {
         GameObject newObject = GenerateRandomObject();
-        newObject.gameObject.transform.position = transform.position;
+
+        if (newObject != null)
+            newObject.gameObject.transform.position = transform.position;
     }
 
     private GameObject GenerateRandomObject()
@@ -21,10 +23,42 @@ public class ObjectSpawner : MonoBehaviour {
 
         if (objectToSpawn != null)
         {
-            GameObject newObject = Instantiate(objectToSpawn[Random.Range(0, objectToSpawn.Length)], transform.position, Quaternion.identity) as GameObject;
-            return newObject;
+            int typeToSpawn = Random.Range(0, 101);
+
+            if (typeToSpawn < 5) { 
+                ItemSpawner(4);
+            }
+
+            else if (typeToSpawn >= 5 && typeToSpawn < 10) { 
+                ItemSpawner(3);
+            }
+            else if (typeToSpawn >= 10 && typeToSpawn < 20) { 
+                ItemSpawner(2);
+            }
+            else if (typeToSpawn >= 20 && typeToSpawn < 40) { 
+                ItemSpawner(1);
+            }
+            else if (typeToSpawn >= 40 && typeToSpawn < 80) { 
+                ItemSpawner(0);
+            }
+            else { 
+            return null;
+            }
         }
         return null;
     }
 
+    private GameObject ItemSpawner(int indexOfItem)
+    {
+        GameObject result = null;
+
+        if (indexOfItem < objectToSpawn.Length)
+        {
+            result = Instantiate(objectToSpawn[indexOfItem], transform.position, Quaternion.identity) as GameObject;
+        }
+
+        return result;
+    }
+
 }
+

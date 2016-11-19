@@ -36,17 +36,20 @@ public class FireBallController : MonoBehaviour {
 
     void FixedUpdate()
     {
-        if (player.transform.localScale.x < 0)
+        if (player != null)
         {
-            if (zRotation != 0)
+            if (player.transform.localScale.x < 0)
             {
-                transform.Rotate(new Vector3(0, 0, zRotation * Time.deltaTime));
-                transform.localScale = new Vector3(-0.5241966f, 0.5241966f, 0.5241966f);
+                if (zRotation != 0)
+                {
+                    transform.Rotate(new Vector3(0, 0, zRotation * Time.deltaTime));
+                    transform.localScale = new Vector3(-0.5241966f, 0.5241966f, 0.5241966f);
+                }
             }
-        }
-        else
-        {
-            transform.Rotate(new Vector3(0, 0, -zRotation * Time.deltaTime));
+            else
+            {
+                transform.Rotate(new Vector3(0, 0, -zRotation * Time.deltaTime));
+            }
         }
     }
     void OnTriggerEnter2D(Collider2D other)
