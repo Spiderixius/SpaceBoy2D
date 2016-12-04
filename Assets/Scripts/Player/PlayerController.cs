@@ -3,10 +3,16 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 
+    // Variable jumping
+    public float timeHeld;
+    public float timeForFullJump;
+    public float minJumpForce;
+    public float maxJumpForce;
+
     // Player movement
     public float moveSpeed;
     private float activeMoveSpeed;
-    public float jumpPower;
+    public float maxJumpPower;
     private Rigidbody2D playerRigidbody2D;
     public bool canMove;
 
@@ -95,14 +101,29 @@ public class PlayerController : MonoBehaviour {
                 playerRigidbody2D.velocity = new Vector3(0f, playerRigidbody2D.velocity.y, 0f);
             }
 
-            // Player jump
-            if (Input.GetButtonDown("Jump") && isGrounded)
+            //// Player jump
+            //if (Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.UpArrow) && isGrounded)
+            //{
+            //    playerRigidbody2D.velocity = new Vector3(playerRigidbody2D.velocity.x, maxJumpPower, 0f);
+            //    jumpSound.Play();
+            //}
+
+
+            // Jump control
+            if (Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.UpArrow))
             {
-                playerRigidbody2D.velocity = new Vector3(playerRigidbody2D.velocity.x, jumpPower, 0f);
-                jumpSound.Play();
+                timeHeld = 0f;
+            }
+            if (Input.GetKey(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+            {
+                timeHeld += Time.deltaTime;
+            }
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+                Jump();
             }
 
-            
+
         }
 
         // Knockback counter, which simply knocks the player in either +x or -x direction.
@@ -175,7 +196,7 @@ public class PlayerController : MonoBehaviour {
 
     /// <summary>
     /// A method to knock back the player upon damage. 
-    /// <seealso cref="HurtPlayer"/>
+    /// <seealso cref="HurtPlayer()"/>
     /// </summary>
     public void KnockBack()
     {
@@ -184,13 +205,30 @@ public class PlayerController : MonoBehaviour {
         theLevelManager.invincible = true;
     }
 
-    /// <summary>
-    /// When the player gameObject has made contact with the other gameobject's collider the player gameObject
-    /// will become a child of it.
-    /// This is to ensure that the Player will stay on the moving gameObject and not slide off.
-    /// </summary>
-    /// <param name="other">Indicates a seperate gameObject's 2D collider, that is not the player's.</param>
-    void OnCollisionEnter2D(Collision2D other)
+
+    private void Jump()
+    {
+        float verticalJumpForce = ((maxJumpForce - minJumpForce) * (timeHeld / timeForFullJump)) + minJumpForce;
+        if (isGrounded)
+        {
+            if (verticalJumpForce > maxJumpForce)
+            {
+                verticalJumpForce = maxJumpForce;
+            }
+        
+            playerRigidbody2D.velocity = new Vector3(playerRigidbody2D.velocity.x, verticalJumpForce, 0f);
+            jumpSound.Play();
+
+        }
+    }
+
+/// <summary>
+/// When the player gameObject has made contact with the other gameobject's collider the player gameObject
+/// will become a child of it.
+/// This is to ensure that the Player will stay on the moving gameObject and not slide off.
+/// </summary>
+/// <param name="other">Indicates a seperate gameObject's 2D collider, that is not the player's.</param>
+void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.tag == "MovingPlatform")
         {
