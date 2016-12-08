@@ -4,15 +4,14 @@ using System.Collections;
 public class PlayerController : MonoBehaviour {
 
     // Variable jumping
-    public float timeHeld;
-    public float timeForFullJump;
-    public float minJumpForce;
-    public float maxJumpForce;
+    public float jumpMinSpeed;   // Velocity for the lowest jump
+    public float jumpMaxSpeed;          // Velocity for the highest jump
+    bool jump = false;
+    bool jumpCancel = false;
 
     // Player movement
     public float moveSpeed;
     private float activeMoveSpeed;
-    public float maxJumpPower;
     private Rigidbody2D playerRigidbody2D;
     public bool canMove;
 
@@ -51,7 +50,7 @@ public class PlayerController : MonoBehaviour {
     public GameObject stompBox;
 
     // The level manager
-    public LevelManager theLevelManager;
+    private LevelManager theLevelManager;
 
 
     // Use this for initialization
@@ -67,11 +66,31 @@ public class PlayerController : MonoBehaviour {
 
         activeMoveSpeed = moveSpeed;
 
+
         canMove = true;
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+
+    void FixedUpdate()
+    {
+        // Normal jump (full speed)
+        if (jump)
+        {
+            playerRigidbody2D.velocity = new Vector2(playerRigidbody2D.velocity.x, jumpMaxSpeed);
+            jump = false;
+        }
+        // Cancel the jump when the button is no longer pressed
+        if (jumpCancel)
+        {
+            if (playerRigidbody2D.velocity.y > jumpMinSpeed)
+                playerRigidbody2D.velocity = new Vector2(playerRigidbody2D.velocity.x, jumpMinSpeed);
+            jumpCancel = false;
+        }
+    }
+
+
+    // Update is called once per frame
+    void Update () {
 
         // If within the groundCheck's circular area, set isGrounded to true if the type is whatIsGround LayerMask. 
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
@@ -101,29 +120,16 @@ public class PlayerController : MonoBehaviour {
                 playerRigidbody2D.velocity = new Vector3(0f, playerRigidbody2D.velocity.y, 0f);
             }
 
-            //// Player jump
-            //if (Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.UpArrow) && isGrounded)
-            //{
-            //    playerRigidbody2D.velocity = new Vector3(playerRigidbody2D.velocity.x, maxJumpPower, 0f);
-            //    jumpSound.Play();
-            //}
-
-
-            // Jump control
-            if (Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.UpArrow))
+            if (Input.GetButtonDown("Jump") && isGrounded)
             {
-                timeHeld = 0f;
+                jump = true;
             }
-            if (Input.GetKey(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+                
+            if (Input.GetButtonUp("Jump") && !isGrounded)
             {
-                timeHeld += Time.deltaTime;
-            }
-            if (Input.GetKeyUp(KeyCode.Space))
-            {
-                Jump();
-            }
-
-
+                jumpCancel = true;
+            }   
+                
         }
 
         // Knockback counter, which simply knocks the player in either +x or -x direction.
@@ -203,23 +209,6 @@ public class PlayerController : MonoBehaviour {
         knockBackCounter = knockBackDuration;
         invincibilityCounter = invincibilityLength;
         theLevelManager.invincible = true;
-    }
-
-
-    private void Jump()
-    {
-        float verticalJumpForce = ((maxJumpForce - minJumpForce) * (timeHeld / timeForFullJump)) + minJumpForce;
-        if (isGrounded)
-        {
-            if (verticalJumpForce > maxJumpForce)
-            {
-                verticalJumpForce = maxJumpForce;
-            }
-        
-            playerRigidbody2D.velocity = new Vector3(playerRigidbody2D.velocity.x, verticalJumpForce, 0f);
-            jumpSound.Play();
-
-        }
     }
 
 /// <summary>
