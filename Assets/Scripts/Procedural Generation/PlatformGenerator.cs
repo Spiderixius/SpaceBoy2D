@@ -27,6 +27,18 @@ public class PlatformGenerator : MonoBehaviour {
     // Object pooling related
     public ObjectPooler[] theObjectPools;
 
+    // Coin related
+    private CoinGenerator theCoinGenerator;
+    public float randomCoinTreshold;
+
+    // Spike related
+    public float randomSpikeTreshold;
+    public ObjectPooler spikepool;
+
+    // Greenblob related
+    private EnemyGenerator greenBlobGenerator;
+    public float randomGreenblobTreshold;
+    
 
 	// Use this for initialization
 	void Start () {
@@ -40,7 +52,11 @@ public class PlatformGenerator : MonoBehaviour {
 
         minHeight = transform.position.y;
         maxHeight = maxHeightPoint.position.y;
-	}
+
+        theCoinGenerator = FindObjectOfType<CoinGenerator>();
+        greenBlobGenerator = FindObjectOfType<EnemyGenerator>();
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -60,9 +76,7 @@ public class PlatformGenerator : MonoBehaviour {
                 heightChange = minHeight;
             }
 
-            transform.position = new Vector3(transform.position.x + (platformWidths[platformSelector] / 2) + distanceBetween, heightChange, transform.position.z);
-
-
+            transform.position = new Vector3(transform.position.x + (platformWidths[platformSelector] / 2f) + distanceBetween, heightChange, transform.position.z);
 
             //Instantiate(/*thePlatform*/ theObjectPools[platformSelector], transform.position, transform.rotation);
 
@@ -72,8 +86,32 @@ public class PlatformGenerator : MonoBehaviour {
             newPlatform.transform.rotation = transform.rotation;
             newPlatform.SetActive(true);
 
+            if (Random.Range(0f, 100f) < randomCoinTreshold)
+            {
+                theCoinGenerator.SpawnCoins(new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z));
 
-            transform.position = new Vector3(transform.position.x + (platformWidths[platformSelector] / 2), transform.position.y, transform.position.z);
+            }
+
+            if (Random.Range(0f, 100f) < randomGreenblobTreshold)
+            {
+                greenBlobGenerator.SpawnBlob(new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z));
+            }
+
+            if (Random.Range(0f, 100f) < randomSpikeTreshold)
+            {
+                //theCoinGenerator.SpawnCoins(new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z));
+                GameObject newSpike = spikepool.GetPooledObject();
+
+                float spikeXPosition = Random.Range((-platformWidths[platformSelector] / 2f) + 2f, (platformWidths[platformSelector] / 2f) - 2f);
+
+                Vector3 spikePosition = new Vector3(spikeXPosition, 1f, 0f);
+
+                newSpike.transform.position = transform.position + spikePosition;
+                newSpike.transform.rotation = transform.rotation;
+                newSpike.SetActive(true);
+            }
+
+            transform.position = new Vector3(transform.position.x + (platformWidths[platformSelector] / 2f), transform.position.y, transform.position.z);
 
         }
     }

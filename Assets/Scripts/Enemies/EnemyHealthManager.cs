@@ -6,12 +6,13 @@ using System.Collections;
 /// </summary>
 public class EnemyHealthManager : MonoBehaviour {
 
-    public int enemyHealth;
+    private int enemyHealth;
+    public int maxHealth;
     public GameObject deathSplosionEffect;
 
 	// Use this for initialization
 	void Start () {
-	
+        enemyHealth = maxHealth;
 	}
 	
 	// Update is called once per frame
@@ -19,7 +20,9 @@ public class EnemyHealthManager : MonoBehaviour {
         if (enemyHealth <= 0)
         {
             Instantiate(deathSplosionEffect, transform.position, transform.rotation);
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            gameObject.SetActive(false);
+            enemyHealth = maxHealth;
         }
 	}
 
