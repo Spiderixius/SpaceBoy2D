@@ -9,14 +9,14 @@ public class ChallangeGenerator : MonoBehaviour
 
     private void Awake()
     {
-        this.startPos = this.transform.FindChild("StartPoint").transform.localPosition;
-        this.endPos = this.transform.FindChild("EndPoint").transform.localPosition;
+        startPos = transform.FindChild("StartPoint").transform.localPosition;
+        endPos = transform.FindChild("EndPoint").transform.localPosition;
     }
 
     public void SpawnNew()
     {
         ChallangeGenerator newChallenge = GenerateRandomChallenges();
-        newChallenge.transform.position = this.transform.position + this.endPos - newChallenge.startPos;
+        newChallenge.transform.position = transform.position + endPos - newChallenge.startPos;
     }
 
     private ChallangeGenerator GenerateRandomChallenges()

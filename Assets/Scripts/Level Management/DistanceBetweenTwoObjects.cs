@@ -8,7 +8,7 @@ public class DistanceBetweenTwoObjects : MonoBehaviour {
     public Transform object1;
     public Transform object2;
     public Text distanceText;
-    private float distance;
+    //private float distance;
     private Vector3 difference;
     float distanceInX;
 

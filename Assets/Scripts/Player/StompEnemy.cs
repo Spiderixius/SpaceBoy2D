@@ -11,17 +11,13 @@ public class StompEnemy : MonoBehaviour {
     void Start () {
         thePlayerRigidBody = transform.parent.GetComponent<Rigidbody2D>();
     }
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Enemy"))
         {
-            thePlayerRigidBody.velocity = new Vector3(thePlayerRigidBody.velocity.x, bounceForce, 0f);
+            thePlayerRigidBody.velocity = new Vector3(thePlayerRigidBody.velocity.x, 
+                bounceForce, 0f);
             other.GetComponent<EnemyHealthManager>().giveDamage(damageToGive);
         }
     }

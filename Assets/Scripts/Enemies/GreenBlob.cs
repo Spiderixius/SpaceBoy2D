@@ -15,7 +15,6 @@ public class GreenBlob : MonoBehaviour {
     float myWidth, myHeight;
 
 
-
 	// Use this for initialization
 	void Start () {
         myTransform = this.transform;
@@ -32,6 +31,8 @@ public class GreenBlob : MonoBehaviour {
         Vector2 lineCastPos = myTransform.position.toVector2() - myTransform.right.toVector2() * myWidth + Vector2.up * myHeight;
         Debug.DrawLine(lineCastPos, lineCastPos + Vector2.down);
         bool isGrounded = Physics2D.Linecast(lineCastPos, lineCastPos + Vector2.down, enemyMask);
+
+        // Checks to see if there is something blocking us. 
         Debug.DrawLine(lineCastPos, lineCastPos - myTransform.right.toVector2() * .05f);
         bool isblocked = Physics2D.Linecast(lineCastPos, lineCastPos - myTransform.right.toVector2() * .05f, enemyMask);
 

@@ -16,11 +16,6 @@ public class Restarter : MonoBehaviour {
 	void Start () {
         theLevelManager = FindObjectOfType<LevelManager>();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
     /// <summary>
     /// A trigger method, where if other gameObject equals to Player, 

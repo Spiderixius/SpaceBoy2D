@@ -56,7 +56,6 @@ public class FireBallController : MonoBehaviour {
     {
         if (other.CompareTag("Enemy"))
         {
-            //Destroy(other.gameObject);
             other.GetComponent<EnemyHealthManager>().giveDamage(damageToGive);
         }
         Instantiate(impactEffect, transform.position, transform.rotation);

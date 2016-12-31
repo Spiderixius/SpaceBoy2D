@@ -4,7 +4,7 @@ using System.Collections;
 public class PlayerController : MonoBehaviour {
 
     // Variable jumping
-    public float jumpMinSpeed;   // Velocity for the lowest jump
+    public float jumpMinSpeed;          // Velocity for the lowest jump
     public float jumpMaxSpeed;          // Velocity for the highest jump
     bool jump = false;
     bool jumpCancel = false;
@@ -76,14 +76,16 @@ public class PlayerController : MonoBehaviour {
         // Normal jump (full speed)
         if (jump)
         {
-            playerRigidbody2D.velocity = new Vector2(playerRigidbody2D.velocity.x, jumpMaxSpeed);
+            playerRigidbody2D.velocity = new Vector2(playerRigidbody2D.velocity.x, 
+                jumpMaxSpeed);
             jump = false;
         }
         // Cancel the jump when the button is no longer pressed
         if (jumpCancel)
         {
             if (playerRigidbody2D.velocity.y > jumpMinSpeed)
-                playerRigidbody2D.velocity = new Vector2(playerRigidbody2D.velocity.x, jumpMinSpeed);
+                playerRigidbody2D.velocity = new Vector2(playerRigidbody2D.velocity.x, 
+                    jumpMinSpeed);
             jumpCancel = false;
         }
     }
@@ -128,8 +130,8 @@ public class PlayerController : MonoBehaviour {
             if (Input.GetButtonUp("Jump") && !isGrounded)
             {
                 jumpCancel = true;
-            }   
-                
+            }
+
         }
 
         // Knockback counter, which simply knocks the player in either +x or -x direction.

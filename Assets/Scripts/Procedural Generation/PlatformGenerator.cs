@@ -7,6 +7,7 @@ public class PlatformGenerator : MonoBehaviour {
 
     // Procedural generation related
     public Transform generationPoint;
+
     private float distanceBetween;
     //private float platformWidth;
 
@@ -43,7 +44,7 @@ public class PlatformGenerator : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         //platformWidth = thePlatform.GetComponent<BoxCollider2D>().size.x;
-
+        
         platformWidths = new float[theObjectPools.Length];
         for (int i = 0; i < theObjectPools.Length; i++)
         {
