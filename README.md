@@ -1,6 +1,6 @@
 <b>Introduction</b>
 
-This is the repository for the bachelor project. The focus of this bachelor project is user-centered game development, meaning the development of the game will progress as data is collected from the user-group. Netnographic methodoligies will be used to collect and analyze the data gathered, and use said data to further adjust the game.
+A Simple 2D side scroller game with the focus on procedurally generated levels.
 
 <a href="https://unity3d.com/public-relations">Unity3D technology</a> will be used for the development of the game.
 
@@ -8,7 +8,7 @@ This is the repository for the bachelor project. The focus of this bachelor proj
 
 <b>The Game Idea</b>
 
-The idea is to work on a two dimensional side scrolling platform game. The core goal is to have a procedurally generated level. Players will be able to pick up buffs, items and traps, which will aid them in progressing throughout the game.
+The idea is to work on a two dimensional side scrolling platform game. The core goal is to have procedurally generated levels. Players will be able to pick up buffs, items and traps, which will aid them in progressing throughout the game.
 
 <b>Proposed Features</b>
 
